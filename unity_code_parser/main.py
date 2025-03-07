@@ -10,17 +10,18 @@ It coordinates the parsing of code files and the generation of documentation.
 import os
 import argparse
 import fnmatch
+import sys
 from typing import Dict, List, Any, Optional
 
-from parser.base_parser import BaseParser
-from parser.csharp_parser import CSharpParser
-from parser.shader_parser import ShaderParser
-from parser.python_parser import PythonParser
-from parser.javascript_parser import JavaScriptParser
-from parser.cpp_parser import CppParser
+from .parser.base_parser import BaseParser
+from .parser.csharp_parser import CSharpParser
+from .parser.shader_parser import ShaderParser
+from .parser.python_parser import PythonParser
+from .parser.javascript_parser import JavaScriptParser
+from .parser.cpp_parser import CppParser
 
-from generator.markdown_generator import MarkdownGenerator
-from generator.mermaid_generator import MermaidGenerator
+from .generator.markdown_generator import MarkdownGenerator
+from .generator.mermaid_generator import MermaidGenerator
 
 
 def get_parser_for_file(file_path: str) -> Optional[BaseParser]:
@@ -169,7 +170,7 @@ def main():
     
     # Process input
     if os.path.isfile(args.input):
-        print(f"Processing file: {args.input}")
+        print(f"处理文件: {args.input}")
         output_files = process_file(
             args.input, 
             args.output, 
@@ -179,14 +180,14 @@ def main():
         )
         
         if output_files:
-            print("Generated files:")
+            print("生成的文件:")
             for doc_type, file_path in output_files.items():
                 print(f"  {doc_type}: {file_path}")
         else:
-            print("No documentation generated.")
+            print("未生成文档。")
     
     elif os.path.isdir(args.input):
-        print(f"Processing directory: {args.input}")
+        print(f"处理目录: {args.input}")
         results = process_directory(
             args.input, 
             args.output, 
@@ -198,17 +199,67 @@ def main():
         )
         
         if results:
-            print(f"Processed {len(results)} files:")
+            print(f"处理了 {len(results)} 个文件:")
             for file_path, output_files in results.items():
                 print(f"  {file_path}:")
                 for doc_type, doc_path in output_files.items():
                     print(f"    {doc_type}: {doc_path}")
         else:
-            print("No documentation generated.")
+            print("未生成文档。")
     
     else:
-        print(f"Error: {args.input} is not a valid file or directory.")
+        print(f"错误: {args.input} 不是有效的文件或目录。")
+
+
+def process_file_path(file_path: str, output_dir: str = "docs", generate_markdown: bool = True, 
+                     generate_class_diagram: bool = True, generate_flow_diagram: bool = False) -> Dict[str, str]:
+    """
+    处理指定的文件路径，生成文档。
+    这个函数可以被其他模块直接调用，而不需要通过命令行。
+    
+    Args:
+        file_path: 要处理的文件路径
+        output_dir: 输出目录
+        generate_markdown: 是否生成Markdown文档
+        generate_class_diagram: 是否生成类图
+        generate_flow_diagram: 是否生成流程图
+        
+    Returns:
+        Dict[str, str]: 包含生成文档路径的字典
+    """
+    # 创建输出目录（如果不存在）
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        
+    if os.path.isfile(file_path):
+        return process_file(
+            file_path, 
+            output_dir, 
+            generate_markdown, 
+            generate_class_diagram, 
+            generate_flow_diagram
+        )
+    elif os.path.isdir(file_path):
+        return process_directory(
+            file_path, 
+            output_dir, 
+            None,  # 使用默认模式
+            True,  # 递归处理
+            generate_markdown, 
+            generate_class_diagram, 
+            generate_flow_diagram
+        )
+    else:
+        print(f"错误: {file_path} 不是有效的文件或目录。")
+        return {}
 
 
 if __name__ == '__main__':
-    main()
+    # 如果直接运行这个脚本，使用命令行参数
+    if len(sys.argv) > 1:
+        main()
+    else:
+        # 如果没有提供命令行参数，显示帮助信息
+        print("请提供要处理的文件或目录路径。")
+        print("用法示例: python main.py <文件或目录路径> [-o 输出目录] [-p 文件模式] [-r] [--no-markdown] [--no-class-diagram] [--flow-diagram]")
+        sys.exit(1)

@@ -121,9 +121,18 @@ class PythonParser(BaseParser):
             return []
             
         functions = []
+        class_function_names = set()
         
+        # 首先收集所有类方法的名称，以便排除它们
         for node in ast.walk(self.ast_tree):
-            if isinstance(node, ast.FunctionDef) and node.parent_field != "body":  # Exclude class methods
+            if isinstance(node, ast.ClassDef):
+                for item in node.body:
+                    if isinstance(item, ast.FunctionDef):
+                        class_function_names.add(item.name)
+        
+        # 然后收集所有不在类中定义的函数
+        for node in ast.iter_child_nodes(self.ast_tree):
+            if isinstance(node, ast.FunctionDef) and node.name not in class_function_names:
                 function_info = self._extract_function_info(node)
                 functions.append(function_info)
                 
@@ -233,7 +242,7 @@ class PythonParser(BaseParser):
 
     def _extract_function_info(self, func_node: ast.FunctionDef) -> Dict[str, Any]:
         """
-        Extract information about a function.
+        Extract information from a function node.
         
         Args:
             func_node: The function AST node.
@@ -241,82 +250,100 @@ class PythonParser(BaseParser):
         Returns:
             Dict[str, Any]: A dictionary containing information about the function.
         """
-        # Extract return type annotation if available
-        returns = ""
-        if func_node.returns:
-            returns = self._get_name(func_node.returns)
-            
-        # Extract parameters
-        parameters = []
+        params = []
         
         for arg in func_node.args.args:
             param_info = {
                 "name": arg.arg,
-                "type": self._get_name(arg.annotation) if arg.annotation else ""
+                "type": self._get_annotation(arg.annotation)
             }
-            parameters.append(param_info)
+            params.append(param_info)
             
-        # Extract docstring
-        docstring = ast.get_docstring(func_node) or ""
+        return_type = self._get_annotation(func_node.returns)
         
         return {
             "name": func_node.name,
-            "parameters": parameters,
-            "returns": returns,
-            "docstring": docstring
+            "params": params,
+            "return_type": return_type,
+            "docstring": ast.get_docstring(func_node) or ""
         }
 
-    def _get_name(self, node: ast.AST) -> str:
+    def _get_annotation(self, annotation) -> str:
         """
-        Get the name of an AST node.
+        Get the string representation of a type annotation.
         
         Args:
-            node: The AST node.
+            annotation: The annotation AST node.
             
         Returns:
-            str: The name of the node.
+            str: The string representation of the annotation.
         """
-        if node is None:
-            return ""
+        if annotation is None:
+            return "Any"
             
+        if isinstance(annotation, ast.Name):
+            return annotation.id
+        elif isinstance(annotation, ast.Attribute):
+            return f"{self._get_name(annotation.value)}.{annotation.attr}"
+        elif isinstance(annotation, ast.Subscript):
+            return f"{self._get_name(annotation.value)}[{self._get_name(annotation.slice)}]"
+        else:
+            return str(annotation)
+
+    def _get_name(self, node) -> str:
+        """
+        Get the string representation of a name node.
+        
+        Args:
+            node: The name AST node.
+            
+        Returns:
+            str: The string representation of the name.
+        """
         if isinstance(node, ast.Name):
             return node.id
-            
         elif isinstance(node, ast.Attribute):
             return f"{self._get_name(node.value)}.{node.attr}"
-            
+        elif isinstance(node, ast.Str):
+            return node.s
+        elif isinstance(node, ast.Constant):
+            return str(node.value)
         elif isinstance(node, ast.Subscript):
             return f"{self._get_name(node.value)}[{self._get_name(node.slice)}]"
-            
-        elif isinstance(node, ast.Call):
-            return f"{self._get_name(node.func)}(...)"
-            
-        elif isinstance(node, ast.Str):
-            return f'"{node.s}"'
-            
-        elif isinstance(node, ast.Num):
-            return str(node.n)
-            
-        elif isinstance(node, ast.List):
-            return "[...]"
-            
-        elif isinstance(node, ast.Dict):
-            return "{...}"
-            
-        elif isinstance(node, ast.NameConstant):
-            return str(node.value)
-            
         else:
-            return str(type(node).__name__)
+            return str(node)
 
-    def _get_value(self, node: ast.AST) -> str:
+    def _get_value(self, node) -> str:
         """
-        Get a string representation of a value.
+        Get the string representation of a value node.
         
         Args:
-            node: The AST node representing a value.
+            node: The value AST node.
             
         Returns:
-            str: A string representation of the value.
+            str: The string representation of the value.
         """
-        return self._get_name(node)
+        if isinstance(node, ast.Str):
+            return f'"{node.s}"'
+        elif isinstance(node, ast.Num):
+            return str(node.n)
+        elif isinstance(node, ast.Constant):
+            if isinstance(node.value, str):
+                return f'"{node.value}"'
+            return str(node.value)
+        elif isinstance(node, ast.List):
+            elements = [self._get_value(elt) for elt in node.elts]
+            return f"[{', '.join(elements)}]"
+        elif isinstance(node, ast.Dict):
+            keys = [self._get_value(key) for key in node.keys]
+            values = [self._get_value(value) for value in node.values]
+            items = [f"{k}: {v}" for k, v in zip(keys, values)]
+            return f"{{{', '.join(items)}}}"
+        elif isinstance(node, ast.Name):
+            return node.id
+        elif isinstance(node, ast.Call):
+            func_name = self._get_name(node.func)
+            args = [self._get_value(arg) for arg in node.args]
+            return f"{func_name}({', '.join(args)})"
+        else:
+            return "..."

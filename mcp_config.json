@@ -1,0 +1,14 @@
+{
+  "servers": [
+    {
+      "name": "CodeDoc",
+      "description": "代码文档生成服务，支持多种编程语言的代码解析和文档生成",
+      "command": "python mcp_server/server.py",
+      "cwd": "g:/PythonProjects/CodeDoc",
+      "environment": {
+        "OUTPUT_DIR": "docs"
+      },
+      "autostart": true
+    }
+  ]
+}
