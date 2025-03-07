@@ -1,100 +1,99 @@
-# Unity Code Documentation Framework
+# Unity Code Documentation Framework (MCP版本)
 
-A framework that automatically parses Unity C# code, Shader code, and other programming languages, generating corresponding Markdown documentation and Mermaid diagrams to enhance code readability and maintainability.
+一个基于Model Context Protocol (MCP)的代码文档生成框架，可以自动解析Unity C#代码、Shader代码和其他编程语言，生成对应的Markdown文档和Mermaid图表，以提高代码的可读性和可维护性。
 
-## Features
+## 特性
 
-- **Multi-language Support**:
-  - Unity C# code
-  - Unity Shader code
-  - Python code
-  - JavaScript code
-  - C++ code
+- **多语言支持**:
+  - Unity C#代码
+  - Unity Shader代码
+  - Python代码
+  - JavaScript代码
+  - C++代码
 
-- **Documentation Generation**:
-  - Markdown documentation with detailed code structure
-  - Mermaid class diagrams showing relationships between classes
-  - Mermaid flow diagrams showing method calls (optional)
+- **文档生成**:
+  - Markdown文档，包含详细的代码结构
+  - Mermaid类图，展示类之间的关系
+  - Mermaid流程图，展示方法调用（可选）
 
-- **Extensible Design**:
-  - Easy to add support for additional programming languages
-  - Customizable output formats
+- **MCP架构优势**:
+  - 标准化的工具和资源接口
+  - 内置的提示模板系统
+  - 完善的日志和错误处理
+  - 支持异步操作
+  - 可扩展的设计
 
-## Installation
+## 安装
 
-1. Clone the repository:
-   ```
+1. 克隆仓库:
+   ```bash
    git clone https://github.com/yourusername/unity-code-doc.git
    cd unity-code-doc
    ```
 
-2. Install the required dependencies:
-   ```
+2. 安装依赖:
+   ```bash
    pip install -r requirements.txt
    ```
 
-## Usage
+## 使用方法
 
-### Command Line Interface
+### 启动MCP服务器
 
-```
-python unity_code_parser/main.py [input] [-o OUTPUT] [-p PATTERNS [PATTERNS ...]] [-r] [--no-markdown] [--no-class-diagram] [--flow-diagram]
-```
-
-- `input`: Path to a file or directory to process
-- `-o, --output`: Directory to save generated documentation (default: docs)
-- `-p, --patterns`: File patterns to match (e.g., *.cs *.shader)
-- `-r, --recursive`: Process subdirectories recursively
-- `--no-markdown`: Do not generate Markdown documentation
-- `--no-class-diagram`: Do not generate class diagrams
-- `--flow-diagram`: Generate flow diagrams
-
-### Examples
-
-Process a single file:
-```
-python unity_code_parser/main.py path/to/your/script.cs
+```bash
+python mcp_server/run.py [--debug]
 ```
 
-Process all C# files in a directory and its subdirectories:
-```
-python unity_code_parser/main.py path/to/your/project -p *.cs -r
-```
+参数说明:
+- `--debug`: 启用调试模式，显示详细日志
 
-Process multiple file types and generate flow diagrams:
-```
-python unity_code_parser/main.py path/to/your/project -p *.cs *.shader *.py -r --flow-diagram
-```
+### MCP工具
 
-## Project Structure
+服务器提供以下工具：
+
+1. `parse_code`: 解析指定的代码文件
+2. `generate_docs`: 生成Markdown文档
+3. `generate_diagrams`: 生成Mermaid图表
+
+### MCP资源
+
+可以通过以下URI模式访问资源：
+
+- `file://code/*`: 访问代码文件
+- `file://docs/*`: 访问生成的文档
+
+### 提示模板
+
+内置的代码分析提示模板可帮助生成更准确的文档。
+
+## 项目结构
 
 ```
-unity_code_parser/
+unity_code_parser/          # 原始代码解析模块
 ├── parser/
-│   ├── base_parser.py       # Parser base class
-│   ├── csharp_parser.py     # C# code parser
-│   ├── shader_parser.py     # Shader code parser
-│   ├── python_parser.py     # Python code parser
-│   ├── javascript_parser.py # JavaScript code parser
-│   └── cpp_parser.py        # C++ code parser
-├── generator/
-│   ├── markdown_generator.py  # Markdown generator
-│   └── mermaid_generator.py   # Mermaid diagram generator
-└── main.py                  # Main program
+│   ├── base_parser.py
+│   ├── csharp_parser.py
+│   ├── shader_parser.py
+│   └── ...
+└── generator/
+    ├── markdown_generator.py
+    └── mermaid_generator.py
+
+mcp_server/                # MCP服务器模块
+├── server.py              # MCP服务器实现
+└── run.py                 # 服务器启动脚本
 ```
 
-## Adding Support for New Languages
+## 添加新语言支持
 
-To add support for a new programming language:
+1. 在 `unity_code_parser/parser` 目录下创建新的解析器类
+2. 继承 `BaseParser` 类并实现必要的方法
+3. 在 MCP 服务器中注册新的语言支持
 
-1. Create a new parser class in the `parser` directory that inherits from `BaseParser`
-2. Implement the required methods to extract code structure
-3. Update the `get_parser_for_file` function in `main.py` to handle the new file extension
+## 贡献
 
-## Contributing
+欢迎提交Pull Request！
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 许可证
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+本项目采用MIT许可证 - 详见LICENSE文件
