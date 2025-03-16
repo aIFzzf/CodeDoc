@@ -1,0 +1,17 @@
+# CodeLens项目依赖
+# 核心依赖
+loguru>=0.6.0
+mcp>=1.0.0
+
+# 解析器依赖
+regex>=2022.10.31
+ast-decompiler>=0.7.0
+
+# 生成器依赖
+jinja2>=3.1.2
+markdown>=3.4.3
+
+# 开发依赖
+pytest>=7.3.1
+pylint>=2.17.0
+black>=23.3.0
