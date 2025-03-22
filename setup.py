@@ -19,7 +19,7 @@ except FileNotFoundError:
     long_description = "CodeLens - Code analysis and documentation tool"
 
 setup(
-    name="codelens",  # 修改为一个独特的名称
+    name="code-lens-tool",  # 修改为一个独特的名称
     version=__version__,  # 从__version__.py中获取
     description="Code analysis and documentation tool",
     long_description=long_description,
@@ -38,7 +38,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "codelens=CodeLens.__main__:main",
+            "code-lens-tool=CodeLens.__main__:main",
         ],
     },
     classifiers=[
