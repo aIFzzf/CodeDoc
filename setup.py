@@ -19,7 +19,7 @@ except FileNotFoundError:
     long_description = "CodeDoc - Code analysis and documentation tool"
 
 setup(
-    name="code-doc-tool",  # 修改为一个独特的名称
+    name="codedoc",  # 修改为一个独特的名称
     version=__version__,  # 从__version__.py中获取
     description="Code analysis and documentation tool",
     long_description=long_description,
@@ -38,7 +38,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "code-doc-tool=CodeDoc.__main__:main",
+            "codedoc=CodeDoc.__main__:main",
         ],
     },
     classifiers=[
