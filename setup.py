@@ -8,7 +8,7 @@ Setup script for CodeDoc package.
 from setuptools import setup, find_packages
 
 # 读取版本信息
-with open("src/CodeDoc/__version__.py", "r") as f:
+with open("src/codedoc_mcp/__version__.py", "r") as f:
     exec(f.read())
 
 # 读取README作为长描述
@@ -19,14 +19,14 @@ except FileNotFoundError:
     long_description = "CodeDoc - Code analysis and documentation tool"
 
 setup(
-    name="codedoc",  # 修改为一个独特的名称
+    name="codedoc_mcp",  # 修改为一个独特的名称
     version=__version__,  # 从__version__.py中获取
     description="Code analysis and documentation tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="CodeDoc Team",
     author_email="neozheng2336@gmail.com",
-    url="https://github.com/aIFzzf/CodeDoc",  # 更新为您的GitHub仓库URL
+    url="https://github.com/aIFzzf/codedoc_mcp",  # 更新为您的GitHub仓库URL
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     install_requires=[
@@ -38,7 +38,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "codedoc=CodeDoc.__main__:main",
+            "codedoc_mcp=codedoc_mcp.__main__:main",
         ],
     },
     classifiers=[

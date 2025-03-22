@@ -13,23 +13,23 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Import local modules
 from __version__ import __version__
-from CodeDoc.app import mcp, APP_NAME
-from CodeDoc.errors import CodeDocError, ErrorCode
+from codedoc_mcp.app import mcp, APP_NAME
+from codedoc_mcp.errors import CodeDocError, ErrorCode
 
 # 导入解析器
-from CodeDoc.parser.base_parser import BaseParser
-from CodeDoc.parser.python_parser import PythonParser
-from CodeDoc.parser.csharp_parser import CSharpParser
-from CodeDoc.parser.cpp_parser import CppParser
-from CodeDoc.parser.javascript_parser import JavaScriptParser
-from CodeDoc.parser.shader_parser import ShaderParser
+from codedoc_mcp.parser.base_parser import BaseParser
+from codedoc_mcp.parser.python_parser import PythonParser
+from codedoc_mcp.parser.csharp_parser import CSharpParser
+from codedoc_mcp.parser.cpp_parser import CppParser
+from codedoc_mcp.parser.javascript_parser import JavaScriptParser
+from codedoc_mcp.parser.shader_parser import ShaderParser
 
 # 导入生成器
-from CodeDoc.generator.markdown_generator import MarkdownGenerator
-from CodeDoc.generator.mermaid_generator import MermaidGenerator
+from codedoc_mcp.generator.markdown_generator import MarkdownGenerator
+from codedoc_mcp.generator.mermaid_generator import MermaidGenerator
 
 # 导入MCP工具
-from CodeDoc.file import analyze_code_file, analyze_directory
+from codedoc_mcp.file import analyze_code_file, analyze_directory
 
 # 暴露主要API
 __all__ = [

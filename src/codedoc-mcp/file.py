@@ -16,12 +16,12 @@ from loguru import logger
 from mcp.server.fastmcp import Context
 
 # Import local modules
-from CodeDoc.app import mcp
-from CodeDoc.errors import ErrorCode
-from CodeDoc.errors import CodeDocError
-from CodeDoc.generator.markdown_generator import MarkdownGenerator
-from CodeDoc.generator.mermaid_generator import MermaidGenerator
-from CodeDoc.parser.base_parser import BaseParser
+from codedoc_mcp.app import mcp
+from codedoc_mcp.errors import ErrorCode
+from codedoc_mcp.errors import CodeDocError
+from codedoc_mcp.generator.markdown_generator import MarkdownGenerator
+from codedoc_mcp.generator.mermaid_generator import MermaidGenerator
+from codedoc_mcp.parser.base_parser import BaseParser
 from parser.python_parser import PythonParser
 from parser.csharp_parser import CSharpParser
 from parser.cpp_parser import CppParser

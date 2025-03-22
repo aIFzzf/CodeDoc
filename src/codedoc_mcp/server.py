@@ -13,9 +13,9 @@ from loguru import logger
 
 # Import local modules
 import __version__
-from CodeDoc.app import APP_NAME
-from CodeDoc.app import mcp
-from CodeDoc.log_config import setup_logging
+from codedoc_mcp.app import APP_NAME
+from codedoc_mcp.app import mcp
+from codedoc_mcp.log_config import setup_logging
 
 # Re-export tools for easier imports
 

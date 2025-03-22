@@ -1,6 +1,6 @@
-# CodeDoc
+# CodeDoc MCP
 
-CodeDoc是一个强大的代码分析和文档生成工具，支持多种编程语言，能够自动生成Markdown文档和Mermaid图表。
+CodeDoc MCP是一个强大的代码分析和文档生成工具，支持多种编程语言，能够自动生成Markdown文档和Mermaid图表。
 
 ## 功能特点
 
@@ -13,7 +13,7 @@ CodeDoc是一个强大的代码分析和文档生成工具，支持多种编程�
 ## 安装方法
 
 ```bash
-pip install codedoc
+pip install codedoc_mcp
 ```
 
 ## 快速开始
@@ -22,16 +22,16 @@ pip install codedoc
 
 ```bash
 # 分析单个文件
-codedoc analyze --file path/to/your/file.py --output docs
+codedoc_mcp analyze --file path/to/your/file.py --output docs
 
 # 分析整个目录
-codedoc analyze-dir --dir path/to/your/project --output docs
+codedoc_mcp analyze-dir --dir path/to/your/project --output docs
 ```
 
 ### Python代码中使用
 
 ```python
-from CodeDoc import analyze_code_file, analyze_directory
+from codedoc_mcp import analyze_code_file, analyze_directory
 
 # 分析单个文件
 result = analyze_code_file(

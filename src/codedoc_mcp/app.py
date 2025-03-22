@@ -4,7 +4,7 @@
 from mcp.server.fastmcp import FastMCP
 
 # Import local modules
-from CodeDoc import __version__
+from codedoc_mcp import __version__
 
 # Constants
 APP_NAME = "codedoc_mcp_server"
