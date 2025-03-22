@@ -1,6 +1,6 @@
-# CodeLens
+# CodeDoc
 
-CodeLens是一个强大的代码分析和文档生成工具，支持多种编程语言，能够自动生成Markdown文档和Mermaid图表。
+CodeDoc是一个强大的代码分析和文档生成工具，支持多种编程语言，能够自动生成Markdown文档和Mermaid图表。
 
 ## 功能特点
 
@@ -13,7 +13,7 @@ CodeLens是一个强大的代码分析和文档生成工具，支持多种编程
 ## 安装方法
 
 ```bash
-pip install codelens
+pip install codedoc
 ```
 
 ## 快速开始
@@ -22,16 +22,16 @@ pip install codelens
 
 ```bash
 # 分析单个文件
-codelens analyze --file path/to/your/file.py --output docs
+codedoc analyze --file path/to/your/file.py --output docs
 
 # 分析整个目录
-codelens analyze-dir --dir path/to/your/project --output docs
+codedoc analyze-dir --dir path/to/your/project --output docs
 ```
 
 ### Python代码中使用
 
 ```python
-from CodeLens import analyze_code_file, analyze_directory
+from CodeDoc import analyze_code_file, analyze_directory
 
 # 分析单个文件
 result = analyze_code_file(

@@ -1,4 +1,4 @@
-# CodeLens项目依赖
+# CodeDoc项目依赖
 # 核心依赖
 loguru>=0.6.0
 mcp>=1.0.0

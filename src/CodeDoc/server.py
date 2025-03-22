@@ -1,4 +1,4 @@
-"""CodeLens MCP Server.
+"""CodeDoc MCP Server.
 
 This module provides a FastMCP server for code analysis and enhancement.
 It supports analyzing code, providing suggestions, and enhancing code quality.
@@ -13,9 +13,9 @@ from loguru import logger
 
 # Import local modules
 import __version__
-from CodeLens.app import APP_NAME
-from CodeLens.app import mcp
-from CodeLens.log_config import setup_logging
+from CodeDoc.app import APP_NAME
+from CodeDoc.app import mcp
+from CodeDoc.log_config import setup_logging
 
 # Re-export tools for easier imports
 

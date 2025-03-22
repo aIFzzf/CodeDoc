@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-File handling module for CodeLens MCP Server.
+File handling module for CodeDoc MCP Server.
 This module provides functionality to process code files and generate documentation.
 """
 
@@ -16,12 +16,12 @@ from loguru import logger
 from mcp.server.fastmcp import Context
 
 # Import local modules
-from CodeLens.app import mcp
-from CodeLens.errors import ErrorCode
-from CodeLens.errors import CodeLensError
-from CodeLens.generator.markdown_generator import MarkdownGenerator
-from CodeLens.generator.mermaid_generator import MermaidGenerator
-from CodeLens.parser.base_parser import BaseParser
+from CodeDoc.app import mcp
+from CodeDoc.errors import ErrorCode
+from CodeDoc.errors import CodeDocError
+from CodeDoc.generator.markdown_generator import MarkdownGenerator
+from CodeDoc.generator.mermaid_generator import MermaidGenerator
+from CodeDoc.parser.base_parser import BaseParser
 from parser.python_parser import PythonParser
 from parser.csharp_parser import CSharpParser
 from parser.cpp_parser import CppParser
@@ -40,7 +40,7 @@ def get_parser_for_file(file_path: str) -> BaseParser:
         BaseParser: An instance of the appropriate parser.
 
     Raises:
-        CodeLensError: If the file type is not supported.
+        CodeDocError: If the file type is not supported.
     """
     file_ext = Path(file_path).suffix.lower()
     
@@ -55,7 +55,7 @@ def get_parser_for_file(file_path: str) -> BaseParser:
     elif file_ext in ['.shader', '.compute', '.cginc', '.hlsl']:
         return ShaderParser(file_path)
     else:
-        raise CodeLensError(f"Unsupported file type: {file_ext}", ErrorCode.VALIDATION_ERROR)
+        raise CodeDocError(f"Unsupported file type: {file_ext}", ErrorCode.VALIDATION_ERROR)
 
 
 @mcp.tool()
@@ -84,7 +84,7 @@ async def analyze_code_file(
         Dict[str, Any]: A dictionary containing paths to generated files and parsed data.
 
     Raises:
-        CodeLensError: If the file cannot be processed.
+        CodeDocError: If the file cannot be processed.
     """
     try:
         if ctx:
@@ -97,7 +97,7 @@ async def analyze_code_file(
             logger.error(error_msg)
             if ctx:
                 await ctx.error(error_msg)
-            raise CodeLensError(error_msg, ErrorCode.FILE_NOT_FOUND)
+            raise CodeDocError(error_msg, ErrorCode.FILE_NOT_FOUND)
         
         # Get appropriate parser
         parser = get_parser_for_file(file_path)
@@ -183,9 +183,9 @@ async def analyze_code_file(
         logger.error(error_msg)
         if ctx:
             await ctx.error(error_msg)
-        if isinstance(e, CodeLensError):
+        if isinstance(e, CodeDocError):
             raise
-        raise CodeLensError(error_msg, ErrorCode.UNKNOWN_ERROR) from e
+        raise CodeDocError(error_msg, ErrorCode.UNKNOWN_ERROR) from e
 
 
 @mcp.tool()
@@ -214,7 +214,7 @@ async def analyze_directory(
         Dict[str, Any]: A dictionary containing paths to generated files and summary information.
 
     Raises:
-        CodeLensError: If the directory cannot be processed.
+        CodeDocError: If the directory cannot be processed.
     """
     try:
         if ctx:
@@ -227,7 +227,7 @@ async def analyze_directory(
             logger.error(error_msg)
             if ctx:
                 await ctx.error(error_msg)
-            raise CodeLensError(error_msg, ErrorCode.FILE_NOT_FOUND)
+            raise CodeDocError(error_msg, ErrorCode.FILE_NOT_FOUND)
         
         # Default file extensions if none provided
         if file_extensions is None:
@@ -306,6 +306,6 @@ async def analyze_directory(
         logger.error(error_msg)
         if ctx:
             await ctx.error(error_msg)
-        if isinstance(e, CodeLensError):
+        if isinstance(e, CodeDocError):
             raise
-        raise CodeLensError(error_msg, ErrorCode.UNKNOWN_ERROR) from e
+        raise CodeDocError(error_msg, ErrorCode.UNKNOWN_ERROR) from e

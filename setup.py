@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-Setup script for CodeLens package.
+Setup script for CodeDoc package.
 """
 
 from setuptools import setup, find_packages
 
 # 读取版本信息
-with open("src/CodeLens/__version__.py", "r") as f:
+with open("src/CodeDoc/__version__.py", "r") as f:
     exec(f.read())
 
 # 读取README作为长描述
@@ -16,17 +16,17 @@ try:
     with open("README.md", "r", encoding="utf-8") as f:
         long_description = f.read()
 except FileNotFoundError:
-    long_description = "CodeLens - Code analysis and documentation tool"
+    long_description = "CodeDoc - Code analysis and documentation tool"
 
 setup(
-    name="code-lens-tool",  # 修改为一个独特的名称
+    name="code-doc-tool",  # 修改为一个独特的名称
     version=__version__,  # 从__version__.py中获取
     description="Code analysis and documentation tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="CodeLens Team",
-    author_email="codelens@example.com",
-    url="https://github.com/aIFzzf/CodeLens",  # 更新为您的GitHub仓库URL
+    author="CodeDoc Team",
+    author_email="codedoc@example.com",
+    url="https://github.com/aIFzzf/CodeDoc",  # 更新为您的GitHub仓库URL
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     install_requires=[
@@ -38,7 +38,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "code-lens-tool=CodeLens.__main__:main",
+            "code-doc-tool=CodeDoc.__main__:main",
         ],
     },
     classifiers=[
@@ -56,9 +56,9 @@ setup(
     keywords="code analysis, documentation, markdown, mermaid, diagram",
     python_requires=">=3.8",
     project_urls={
-        "Bug Reports": "https://github.com/aIFzzf/CodeLens/issues",
-        "Source": "https://github.com/aIFzzf/CodeLens",
-        "Documentation": "https://github.com/aIFzzf/CodeLens#readme",
+        "Bug Reports": "https://github.com/aIFzzf/CodeDoc/issues",
+        "Source": "https://github.com/aIFzzf/CodeDoc",
+        "Documentation": "https://github.com/aIFzzf/CodeDoc#readme",
     },
     include_package_data=True,
     zip_safe=False,

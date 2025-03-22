@@ -1,11 +1,11 @@
-"""Error handling for CodeLens MCP Server."""
+"""Error handling for CodeDoc MCP Server."""
 
 # Import built-in modules
 from enum import Enum, auto
 
 
 class ErrorCode(Enum):
-    """Error codes for CodeLens MCP Server."""
+    """Error codes for CodeDoc MCP Server."""
     
     # General errors
     UNKNOWN_ERROR = auto()
@@ -26,11 +26,11 @@ class ErrorCode(Enum):
     ANALYSIS_ERROR = auto()
 
 
-class CodeLensError(Exception):
-    """Base exception class for CodeLens MCP Server."""
+class CodeDocError(Exception):
+    """Base exception class for CodeDoc MCP Server."""
     
     def __init__(self, message: str, code: ErrorCode = ErrorCode.UNKNOWN_ERROR):
-        """Initialize CodeLensError.
+        """Initialize CodeDocError.
         
         Args:
             message: Error message

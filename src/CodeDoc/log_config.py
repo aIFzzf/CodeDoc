@@ -1,4 +1,4 @@
-"""Logging configuration for CodeLens MCP Server."""
+"""Logging configuration for CodeDoc MCP Server."""
 
 # Import built-in modules
 import os
@@ -10,7 +10,7 @@ from loguru import logger
 from platformdirs import user_log_dir
 
 # Constants
-APP_NAME = "codelens_mcp_server"
+APP_NAME = "codedoc_mcp_server"
 
 
 def setup_logging() -> None:
@@ -23,7 +23,7 @@ def setup_logging() -> None:
     log_dir.mkdir(parents=True, exist_ok=True)
     
     # Log file path
-    log_file = log_dir / "codelens_mcp.log"
+    log_file = log_dir / "codedoc_mcp.log"
     
     # Configure logger
     logger.remove()  # Remove default handler
