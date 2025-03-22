@@ -3,6 +3,7 @@ name: 发布Python包到PyPI
 on:
   release:
     types: [created]
+  workflow_dispatch:  # 允许手动触发工作流
 
 jobs:
   deploy:
@@ -19,8 +20,8 @@ jobs:
         pip install build twine
     - name: 构建并发布
       env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        TWINE_USERNAME: __token__  # 使用固定值 __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}  # 使用API令牌
       run: |
         python -m build
         twine upload dist/*

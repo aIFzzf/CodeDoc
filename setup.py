@@ -19,14 +19,14 @@ except FileNotFoundError:
     long_description = "CodeLens - Code analysis and documentation tool"
 
 setup(
-    name="codelens",
+    name="codelens",  # 修改为一个独特的名称
     version=__version__,  # 从__version__.py中获取
     description="Code analysis and documentation tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="CodeLens Team",
     author_email="codelens@example.com",
-    url="https://github.com/codelens/codelens",
+    url="https://github.com/aIFzzf/CodeLens",  # 更新为您的GitHub仓库URL
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     install_requires=[
@@ -56,9 +56,9 @@ setup(
     keywords="code analysis, documentation, markdown, mermaid, diagram",
     python_requires=">=3.8",
     project_urls={
-        "Bug Reports": "https://github.com/codelens/codelens/issues",
-        "Source": "https://github.com/codelens/codelens",
-        "Documentation": "https://github.com/codelens/codelens#readme",
+        "Bug Reports": "https://github.com/aIFzzf/CodeLens/issues",
+        "Source": "https://github.com/aIFzzf/CodeLens",
+        "Documentation": "https://github.com/aIFzzf/CodeLens#readme",
     },
     include_package_data=True,
     zip_safe=False,
