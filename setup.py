@@ -25,7 +25,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="CodeDoc Team",
-    author_email="codedoc@example.com",
+    author_email="neozheng2336@gmail.com",
     url="https://github.com/aIFzzf/CodeDoc",  # 更新为您的GitHub仓库URL
     package_dir={"": "src"},
     packages=find_packages(where="src"),
